@@ -1,4 +1,5 @@
 # The actual hangman ASCII art
+# Just stored as a list so its easy to append
 
 hangman = ["""
              -----
