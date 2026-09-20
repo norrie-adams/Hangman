@@ -13,10 +13,13 @@ word = []
 wordLetters = []
 guessedLetters = []
 
-# Global game state decleration
-letterHasBeenGuessed = False
+# Global Variables
+gameOver = False
+hangmanPhase = 0
+realWord = ""
 
 def init():
+    global realWord
     print("===============================")
     print("      Hangman for JeyGazos     ")
     print("===============================")
@@ -32,40 +35,50 @@ def init():
     for letter in realWord:
         wordLetters.append(letter)
 
-    return realWord
-
 def main():
     init()
 
-    global letterHasBeenGuessed
+    global gameOver
+    global hangmanPhase
+    global realWord
 
-    while letterHasBeenGuessed == False:
+    while gameOver == False:
         guessChoice = input("Guess a letter or word? (Letter/Word): ")
 
         # Letter Selected
         if (guessChoice == "Letter"):
             guessedLetter = input("Guess a letter: ")
-            guessedLetters.append(guessedLetter)
             if guessedLetter in wordLetters:
                 print("Correct!")
+                guessedLetters.append(guessedLetter)
                 print(f"Guessed Letters: {guessedLetters}")
             elif guessedLetter in guessedLetters:
                 print("You already guessed that letter!")
                 print(f"Guessed Letters: {guessedLetters}")
             else:
                 print("Incorrect!")
+                guessedLetters.append(guessedLetter)
+                print(hangman[hangmanPhase])
+                hangmanPhase += 1
                 print(f"Guessed Letters: {guessedLetters}")
         # Word Selected
         elif (guessChoice == "Word"):
             guessedWord = input("Guess the word: ")
             if guessedWord in word:
                 print("You have guessed the correct word! Congrats!")
-                letterHasBeenGuessed = True
+                gameOver = True
             else:
                 print("You have not guessed the right word")
         # Catch-all statement
         else:
             print("Please enter a valid operation")
+
+        # Checks if game is over
+        if (hangmanPhase == 6):
+            print("You have lost!")
+            print(f"The word was: {realWord}")
+            print(hangman[hangmanPhase])
+            gameOver = True
 
 if __name__ == "__main__":
     main()
