@@ -9,7 +9,7 @@ I could not figure out how to track it in 5 hours, but I completed it :)
 
 See INSTRUCTIONS.md for instructions on how to play Hangman
 
-### Building from Source
+# Building from Source
 
 **Requirements:** Python 3.14+ Compiler
 
