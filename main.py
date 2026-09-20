@@ -1,15 +1,27 @@
 from hangman import hangman
 
 # Draws line for letters
-def drawLine(realWord): 
+def drawLine(realWord, guessedLetters): 
     print()
+    
+    # Print letters or empty spaces
+    for letter in realWord:
+        if letter.lower() in guessedLetters:
+            print(letter, end="")
+        else:
+            print(" ", end=" ")  # Empty space for unguessed letters
+            
+    print()
+    
+    #  Print the matching dashes underneath
     for letter in realWord:
         print("-", end="")
-    # Prints new line so terminal doesn't get squished next to it
-    print()
+        
+    print("\n") # Fresh line at the end
+
 
 # Empty list declerations
-word = []
+word = [] 
 wordLetters = []
 guessedLetters = []
 
@@ -17,6 +29,7 @@ guessedLetters = []
 gameOver = False
 hangmanPhase = 0
 realWord = ""
+guessedWord = ""
 
 def init():
     global realWord
@@ -30,7 +43,6 @@ def init():
 
     realWord = input("Enter the word you would like the other person to guess: ")
 
-    drawLine(realWord)
     word.append(realWord)
     for letter in realWord:
         wordLetters.append(letter)
@@ -41,21 +53,44 @@ def main():
     global gameOver
     global hangmanPhase
     global realWord
+    global guessedWord
 
     while gameOver == False:
-        guessChoice = input("Guess a letter or word? (Letter/Word): ")
+        drawLine(realWord, guessedLetters)
+            
+        # Avoids forcing the user to select "Word" to finish the game
+        all_letters_guessed = True
+        for letter in wordLetters:
+            if letter not in guessedLetters:
+                all_letters_guessed = False
+                        
+        if all_letters_guessed:
+            print("You have filled out all letters! Congrats!")
+            gameOver = True
+            break
 
+        guessChoice = input("Guess a letter or word? (Letter/Word): ")
+    
         # Letter Selected
         if (guessChoice == "Letter"):
             guessedLetter = input("Guess a letter: ")
             if guessedLetter in wordLetters:
+                print()
+                print("=================")
+                print()
                 print("Correct!")
                 guessedLetters.append(guessedLetter)
                 print(f"Guessed Letters: {guessedLetters}")
             elif guessedLetter in guessedLetters:
+                print()
+                print("=================")
+                print()
                 print("You already guessed that letter!")
                 print(f"Guessed Letters: {guessedLetters}")
             else:
+                print()
+                print("=================")
+                print()
                 print("Incorrect!")
                 guessedLetters.append(guessedLetter)
                 print(hangman[hangmanPhase])
